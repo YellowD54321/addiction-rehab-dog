@@ -1,6 +1,6 @@
 export const ADDICTIONS = [
   { key: 'instagram-reels', label: 'Instagram Reels' },
-  { key: 'facebook-reels', label: 'Facebook 短影片' },
+  { key: 'facebook-reels', label: 'Facebook Reels' },
   { key: 'youtube-shorts', label: 'YouTube Shorts' },
   { key: 'threads', label: 'Threads' },
   { key: 'x', label: 'X' },

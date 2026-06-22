@@ -1,4 +1,4 @@
-// 以本機時區回傳 YYYY-MM-DD
+// Return YYYY-MM-DD in the local timezone
 export function getToday(date = new Date()): string {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');

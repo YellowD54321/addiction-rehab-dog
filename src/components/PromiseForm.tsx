@@ -23,7 +23,7 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4">
       <fieldset className="flex flex-col gap-2">
-        <legend className="mb-2 text-lg font-semibold">想戒除什麼？</legend>
+        <legend className="mb-2 text-lg font-semibold">What do you want to quit?</legend>
         {ADDICTIONS.map((item) => (
           <label key={item.key} className="flex items-center gap-2">
             <input
@@ -39,12 +39,12 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
       </fieldset>
 
       <label className="flex flex-col gap-2">
-        <span className="text-lg font-semibold">今天的約定</span>
+        <span className="text-lg font-semibold">Today&apos;s promise</span>
         <input
           type="text"
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder="例：我今天完全不開啟 IG 滑短影音"
+          placeholder="e.g. I won't open Instagram Reels at all today"
           className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
         />
       </label>
@@ -54,7 +54,7 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
         disabled={!canSubmit}
         className="rounded-full bg-foreground px-5 py-3 font-medium text-background transition-colors disabled:cursor-not-allowed disabled:opacity-50"
       >
-        訂下約定
+        Make a promise
       </button>
     </form>
   );

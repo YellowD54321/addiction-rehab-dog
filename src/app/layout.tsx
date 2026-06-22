@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: '戒癮網站',
-  description: '與自己立下約定，逐日紀錄是否達成，慢慢戒除成癮。',
+  title: 'Addiction Rehab Dog',
+  description:
+    'Make a promise to yourself, track it day by day, and break your addiction one step at a time.',
 };
 
 export default function RootLayout({

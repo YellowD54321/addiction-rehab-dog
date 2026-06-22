@@ -20,13 +20,13 @@ export async function createPromise(input: {
     createdAt: now,
     updatedAt: now,
   };
-  const id = await db.promises.add(record); // date unique → 同日重複會 throw
+  const id = await db.promises.add(record); // date unique → adding twice on the same day throws
   return { ...record, id };
 }
 
 async function setStatus(status: 'success' | 'failed'): Promise<void> {
   const today = await getTodayPromise();
-  if (!today?.id) throw new Error('今日尚無約定，無法更新狀態');
+  if (!today?.id) throw new Error('No promise exists for today; cannot update status.');
   await db.promises.update(today.id, { status, updatedAt: Date.now() });
 }
 

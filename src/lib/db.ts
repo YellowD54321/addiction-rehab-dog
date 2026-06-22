@@ -6,7 +6,7 @@ export class AppDatabase extends Dexie {
 
   constructor() {
     super('addiction-rehab-dog');
-    // &date：date 為 unique index，落實「每日一筆」
+    // &date: date is a unique index, enforcing one record per day
     this.version(1).stores({
       promises: '++id, &date, status',
     });

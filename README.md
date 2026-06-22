@@ -1,64 +1,64 @@
-# 戒癮網站（Addiction Rehab Dog）
+# Addiction Rehab Dog
 
-## 專案介紹
+## Overview
 
-這是一個戒癮網站。使用者進到網站後可以跟自己立下約定，並逐日紀錄當天是否達成約定，藉由持續的紀錄與回顧，慢慢把成癮戒掉。
+Addiction Rehab Dog is a web app for breaking addictions. After opening the site, users make a promise to themselves and record each day whether they kept it. Through consistent tracking and review, they gradually break the addiction.
 
-> 目前僅完成專案初始化骨架，後續功能（用戶認證、約定管理、打卡系統、統計展示）將於各自的 PRD 中陸續開發。
+> Only the project scaffold is complete so far. Upcoming features (user authentication, promise management, check-in system, statistics dashboard) will be developed in their own PRDs.
 
-## 技術棧
+## Tech Stack
 
-- **Next.js 16**（App Router）
+- **Next.js 16** (App Router)
 - **React 19**
-- **TypeScript**（strict 模式，路徑別名 `@/` → `src/`）
+- **TypeScript** (strict mode, path alias `@/` → `src/`)
 - **Tailwind CSS v4**
-- **ESLint 9**（flat config）+ **Prettier**
-- **Jest** + **Testing Library**（單元測試）
+- **ESLint 9** (flat config) + **Prettier**
+- **Jest** + **Testing Library** (unit tests)
 
-## 安裝環境
+## Setup
 
-- **Node.js**：需 `>= 20`（建議 24）
-- 安裝依賴：
+- **Node.js**: requires `>= 20` (24 recommended)
+- Install dependencies:
 
 ```bash
 npm install
 ```
 
-## 開發流程
+## Development
 
-| 指令 | 說明 |
-|------|------|
-| `npm run dev` | 啟動開發伺服器，瀏覽 http://localhost:3000 |
-| `npm run build` | 編譯正式版 |
-| `npm run start` | 啟動正式版伺服器（需先 build） |
-| `npm test` | 執行單元測試 |
-| `npm run test:watch` | 監看模式執行測試 |
-| `npm run lint` | 執行 ESLint 檢查 |
-| `npm run format` | 以 Prettier 格式化 `src` 程式碼 |
-| `npm run typecheck` | TypeScript 型別檢查（`tsc --noEmit`） |
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start the dev server at http://localhost:3000 |
+| `npm run build` | Build the production bundle |
+| `npm run start` | Start the production server (build first) |
+| `npm test` | Run unit tests |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run lint` | Run ESLint checks |
+| `npm run format` | Format the `src` code with Prettier |
+| `npm run typecheck` | TypeScript type checking (`tsc --noEmit`) |
 
-## 專案結構
+## Project Structure
 
 ```
 addiction-rehab-dog/
-├── eslint.config.mjs      # ESLint flat config（含 Prettier 整合）
-├── jest.config.ts         # Jest 設定（next/jest）
-├── jest.setup.ts          # 測試前置（jest-dom matchers）
+├── eslint.config.mjs      # ESLint flat config (with Prettier integration)
+├── jest.config.ts         # Jest config (next/jest)
+├── jest.setup.ts          # Test setup (jest-dom matchers)
 ├── next.config.ts
 ├── postcss.config.mjs     # Tailwind v4 PostCSS
-├── tsconfig.json          # strict + @/ 路徑別名
+├── tsconfig.json          # strict + @/ path alias
 ├── .prettierrc
-├── public/                # 靜態資源
+├── public/                # Static assets
 ├── src/
 │   └── app/               # Next.js App Router
 │       ├── layout.tsx
 │       ├── page.tsx
 │       ├── globals.css
-│       └── __tests__/     # 單元測試
+│       └── __tests__/     # Unit tests
 └── docs/
-    └── prd/               # 產品需求文件
+    └── prd/               # Product requirement documents
 ```
 
-## 開發規範
+## Conventions
 
-本專案採 **TDD（測試驅動開發）**：先寫失敗的測試（紅燈）→ 寫最小程式碼通過（綠燈）→ 重構。測試檔案以 `__tests__/<name>.test.ts(x)` 與原始碼共置。
+This project follows **TDD (Test-Driven Development)**: write a failing test first (red) → write the minimum code to pass (green) → refactor. Test files are co-located with source as `__tests__/<name>.test.ts(x)`.

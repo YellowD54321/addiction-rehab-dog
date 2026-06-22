@@ -7,13 +7,13 @@ interface PromiseResultProps {
 const RESULT = {
   success: {
     src: '/dog/happy-dog.svg',
-    alt: '開心的狗狗',
-    message: '太棒了，今天你做到了！🎉',
+    alt: 'Happy dog',
+    message: 'Awesome, you made it today! 🎉',
   },
   failed: {
     src: '/dog/sad-dog.svg',
-    alt: '沮喪的狗狗',
-    message: '沒關係，明天再試一次吧…',
+    alt: 'Sad dog',
+    message: "It's okay — try again tomorrow…",
   },
 } as const;
 
