@@ -8,7 +8,7 @@ import {
 
 const TEST_CONSTANTS = {
   ADDICTION: 'instagram-reels' as const,
-  CONTENT: '我今天完全不開啟 IG 滑短影音',
+  CONTENT: "I won't open Instagram Reels at all today",
 };
 
 describe('Promise Repository', () => {
@@ -16,8 +16,8 @@ describe('Promise Repository', () => {
     await db.promises.clear();
   });
 
-  describe('成功情境', () => {
-    it('應該建立今日約定且狀態為 pending', async () => {
+  describe('Success cases', () => {
+    it("should create today's promise with status pending", async () => {
       const result = await createPromise({
         addiction: TEST_CONSTANTS.ADDICTION,
         content: TEST_CONSTANTS.CONTENT,
@@ -26,7 +26,7 @@ describe('Promise Repository', () => {
       expect(result.status).toBe('pending');
     });
 
-    it('getTodayPromise 應該回傳今日已建立的約定', async () => {
+    it("getTodayPromise should return today's existing promise", async () => {
       await createPromise({
         addiction: TEST_CONSTANTS.ADDICTION,
         content: TEST_CONSTANTS.CONTENT,
@@ -37,7 +37,7 @@ describe('Promise Repository', () => {
       expect(today?.content).toBe(TEST_CONSTANTS.CONTENT);
     });
 
-    it('markSuccess 應該將狀態更新為 success 並更新 updatedAt', async () => {
+    it('markSuccess should update status to success and update updatedAt', async () => {
       const created = await createPromise({
         addiction: TEST_CONSTANTS.ADDICTION,
         content: TEST_CONSTANTS.CONTENT,
@@ -50,7 +50,7 @@ describe('Promise Repository', () => {
       expect(today?.updatedAt).toBeGreaterThanOrEqual(created.updatedAt);
     });
 
-    it('markFailed 應該將狀態更新為 failed', async () => {
+    it('markFailed should update status to failed', async () => {
       await createPromise({
         addiction: TEST_CONSTANTS.ADDICTION,
         content: TEST_CONSTANTS.CONTENT,
@@ -63,8 +63,8 @@ describe('Promise Repository', () => {
     });
   });
 
-  describe('錯誤情境', () => {
-    it('同一天重複建立約定應該拋錯（每日一筆）', async () => {
+  describe('Error cases', () => {
+    it('should throw when creating a second promise on the same day (one per day)', async () => {
       await createPromise({
         addiction: TEST_CONSTANTS.ADDICTION,
         content: TEST_CONSTANTS.CONTENT,
@@ -78,17 +78,17 @@ describe('Promise Repository', () => {
       ).rejects.toThrow();
     });
 
-    it('今日無約定時呼叫 markSuccess 應該拋錯', async () => {
+    it('markSuccess should throw when there is no promise today', async () => {
       await expect(markSuccess()).rejects.toThrow();
     });
 
-    it('今日無約定時呼叫 markFailed 應該拋錯', async () => {
+    it('markFailed should throw when there is no promise today', async () => {
       await expect(markFailed()).rejects.toThrow();
     });
   });
 
-  describe('邊界情境', () => {
-    it('今日尚未建立約定時 getTodayPromise 應該回傳 undefined', async () => {
+  describe('Edge cases', () => {
+    it('getTodayPromise should return undefined when no promise exists today', async () => {
       const today = await getTodayPromise();
 
       expect(today).toBeUndefined();

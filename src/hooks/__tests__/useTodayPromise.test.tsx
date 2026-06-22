@@ -4,7 +4,7 @@ import { useTodayPromise } from '@/hooks/useTodayPromise';
 
 const TEST_CONSTANTS = {
   ADDICTION: 'instagram-reels' as const,
-  CONTENT: '我今天完全不開啟 IG 滑短影音',
+  CONTENT: "I won't open Instagram Reels at all today",
 };
 
 describe('useTodayPromise', () => {
@@ -12,8 +12,8 @@ describe('useTodayPromise', () => {
     await db.promises.clear();
   });
 
-  describe('成功情境', () => {
-    it('今日無約定時，載入完成後 promise 為 undefined', async () => {
+  describe('Success cases', () => {
+    it('promise should be undefined after loading when there is no promise today', async () => {
       const { result } = renderHook(() => useTodayPromise());
 
       await waitFor(() => expect(result.current.loading).toBe(false));
@@ -21,7 +21,7 @@ describe('useTodayPromise', () => {
       expect(result.current.promise).toBeUndefined();
     });
 
-    it('submit 後 promise 狀態應為 pending', async () => {
+    it('promise status should be pending after submit', async () => {
       const { result } = renderHook(() => useTodayPromise());
       await waitFor(() => expect(result.current.loading).toBe(false));
 
@@ -35,7 +35,7 @@ describe('useTodayPromise', () => {
       expect(result.current.promise?.status).toBe('pending');
     });
 
-    it('markSuccess 後 promise 狀態應為 success', async () => {
+    it('promise status should be success after markSuccess', async () => {
       const { result } = renderHook(() => useTodayPromise());
       await waitFor(() => expect(result.current.loading).toBe(false));
       await act(async () => {
@@ -52,7 +52,7 @@ describe('useTodayPromise', () => {
       expect(result.current.promise?.status).toBe('success');
     });
 
-    it('markFailed 後 promise 狀態應為 failed', async () => {
+    it('promise status should be failed after markFailed', async () => {
       const { result } = renderHook(() => useTodayPromise());
       await waitFor(() => expect(result.current.loading).toBe(false));
       await act(async () => {

@@ -19,39 +19,39 @@ const makeRecord = (status: PromiseRecord['status']): PromiseRecord => ({
   id: 1,
   date: '2026-06-21',
   addiction: 'instagram-reels',
-  content: '我今天完全不開啟 IG 滑短影音',
+  content: "I won't open Instagram Reels at all today",
   status,
   createdAt: 0,
   updatedAt: 0,
 });
 
-describe('首頁 (Home)', () => {
+describe('Home', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('載入中', () => {
-    it('loading 為 true 時應顯示載入提示', () => {
+  describe('Loading', () => {
+    it('should show the loading message when loading is true', () => {
       mockedUseTodayPromise.mockReturnValue({ ...baseHook, loading: true });
 
       render(<Home />);
 
-      expect(screen.getByText('載入中…')).toBeInTheDocument();
+      expect(screen.getByText('Loading…')).toBeInTheDocument();
     });
   });
 
-  describe('今日無約定', () => {
-    it('應顯示訂約定表單', () => {
+  describe('No promise today', () => {
+    it('should show the promise form', () => {
       mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: undefined });
 
       render(<Home />);
 
-      expect(screen.getByRole('button', { name: '訂下約定' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Make a promise' })).toBeInTheDocument();
     });
   });
 
-  describe('約定進行中 (pending)', () => {
-    it('應顯示兩個操作按鈕', () => {
+  describe('Promise in progress (pending)', () => {
+    it('should show the two action buttons', () => {
       mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: makeRecord('pending') });
 
       render(<Home />);
@@ -61,8 +61,8 @@ describe('首頁 (Home)', () => {
     });
   });
 
-  describe('約定成功 (success)', () => {
-    it('應顯示開心的狗狗插畫', () => {
+  describe('Promise succeeded (success)', () => {
+    it('should show the happy dog illustration', () => {
       mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: makeRecord('success') });
 
       render(<Home />);
@@ -71,8 +71,8 @@ describe('首頁 (Home)', () => {
     });
   });
 
-  describe('約定失敗 (failed)', () => {
-    it('應顯示沮喪的狗狗插畫', () => {
+  describe('Promise failed (failed)', () => {
+    it('should show the sad dog illustration', () => {
       mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: makeRecord('failed') });
 
       render(<Home />);

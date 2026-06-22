@@ -2,15 +2,15 @@ import { render, screen } from '@testing-library/react';
 import { PromiseResult } from '@/components/PromiseResult';
 
 describe('PromiseResult', () => {
-  describe('成功情境', () => {
-    it('status 為 success 時應顯示開心的狗狗插畫', () => {
+  describe('Success cases', () => {
+    it('should show the happy dog illustration when status is success', () => {
       render(<PromiseResult status="success" />);
 
       const img = screen.getByRole('img');
       expect(img).toHaveAttribute('src', expect.stringContaining('happy-dog'));
     });
 
-    it('status 為 failed 時應顯示沮喪的狗狗插畫', () => {
+    it('should show the sad dog illustration when status is failed', () => {
       render(<PromiseResult status="failed" />);
 
       const img = screen.getByRole('img');

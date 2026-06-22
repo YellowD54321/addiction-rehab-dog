@@ -3,15 +3,15 @@ import userEvent from '@testing-library/user-event';
 import { PromiseActions } from '@/components/PromiseActions';
 
 describe('PromiseActions', () => {
-  describe('成功情境', () => {
-    it('應該渲染兩個操作按鈕', () => {
+  describe('Success cases', () => {
+    it('should render the two action buttons', () => {
       render(<PromiseActions onSuccess={jest.fn()} onFailed={jest.fn()} />);
 
       expect(screen.getByRole('button', { name: 'I made it!' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: "I didn't make it..." })).toBeInTheDocument();
     });
 
-    it('點擊「I made it!」應該觸發 onSuccess', async () => {
+    it('should call onSuccess when "I made it!" is clicked', async () => {
       const user = userEvent.setup();
       const onSuccess = jest.fn();
       render(<PromiseActions onSuccess={onSuccess} onFailed={jest.fn()} />);
@@ -21,7 +21,7 @@ describe('PromiseActions', () => {
       expect(onSuccess).toHaveBeenCalledTimes(1);
     });
 
-    it('點擊「I didn\'t make it...」應該觸發 onFailed', async () => {
+    it('should call onFailed when "I didn\'t make it..." is clicked', async () => {
       const user = userEvent.setup();
       const onFailed = jest.fn();
       render(<PromiseActions onSuccess={jest.fn()} onFailed={onFailed} />);
