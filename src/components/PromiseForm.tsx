@@ -14,6 +14,9 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
   const trimmed = content.trim();
   const canSubmit = trimmed.length > 0;
 
+  const selected = ADDICTIONS.find((item) => item.key === addiction) ?? ADDICTIONS[0];
+  const placeholder = `I will do ____ (something) instead of opening ${selected.label} today`;
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!canSubmit) return;
@@ -24,18 +27,36 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
     <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4">
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 text-lg font-semibold">What do you want to quit?</legend>
-        {ADDICTIONS.map((item) => (
-          <label key={item.key} className="flex items-center gap-2">
-            <input
-              type="radio"
-              name="addiction"
-              value={item.key}
-              checked={addiction === item.key}
-              onChange={() => setAddiction(item.key)}
-            />
-            <span>{item.label}</span>
-          </label>
-        ))}
+        <div role="radiogroup" className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {ADDICTIONS.map((item) => {
+            const isSelected = addiction === item.key;
+            return (
+              <button
+                key={item.key}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                onClick={() => setAddiction(item.key)}
+                className="rounded-lg border-2 px-4 py-3 text-sm font-medium transition-colors"
+                style={
+                  isSelected
+                    ? {
+                        backgroundColor: item.primary,
+                        color: item.secondary,
+                        borderColor: item.primary,
+                      }
+                    : {
+                        backgroundColor: item.secondary,
+                        color: item.primary,
+                        borderColor: item.primary,
+                      }
+                }
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
       </fieldset>
 
       <label className="flex flex-col gap-2">
@@ -44,7 +65,7 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
           type="text"
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder="e.g. I won't open Instagram Reels at all today"
+          placeholder={placeholder}
           className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
         />
       </label>
