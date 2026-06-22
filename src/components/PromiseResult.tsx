@@ -8,12 +8,12 @@ const RESULT = {
   success: {
     src: '/dog/happy-dog.svg',
     alt: 'Happy dog',
-    message: 'Awesome, you made it today! 🎉',
+    message: "Awesome, you made it today! 🎉 AR Dog Can't wait to see you tomorrow! 🎉",
   },
   failed: {
     src: '/dog/sad-dog.svg',
     alt: 'Sad dog',
-    message: "It's okay — try again tomorrow…",
+    message: 'AR Dog gives you a hug. AR Dog expects to see you tomorrow.',
   },
 } as const;
 
