@@ -13,8 +13,46 @@ describe('PromiseForm', () => {
       render(<PromiseForm onSubmit={jest.fn()} />);
 
       ADDICTIONS.forEach((addiction) => {
-        expect(screen.getByText(addiction.label)).toBeInTheDocument();
+        expect(screen.getByRole('radio', { name: addiction.label })).toBeInTheDocument();
       });
+    });
+
+    it('should mark the first addiction option as selected by default', () => {
+      render(<PromiseForm onSubmit={jest.fn()} />);
+
+      expect(screen.getByRole('radio', { name: ADDICTIONS[0].label })).toHaveAttribute(
+        'aria-checked',
+        'true',
+      );
+    });
+
+    it('should select only one option at a time', async () => {
+      const user = userEvent.setup();
+      render(<PromiseForm onSubmit={jest.fn()} />);
+
+      await user.click(screen.getByRole('radio', { name: 'YouTube Shorts' }));
+
+      expect(screen.getByRole('radio', { name: 'YouTube Shorts' })).toHaveAttribute(
+        'aria-checked',
+        'true',
+      );
+      expect(screen.getByRole('radio', { name: ADDICTIONS[0].label })).toHaveAttribute(
+        'aria-checked',
+        'false',
+      );
+    });
+
+    it('should update the placeholder to match the selected app', async () => {
+      const user = userEvent.setup();
+      render(<PromiseForm onSubmit={jest.fn()} />);
+
+      await user.click(screen.getByRole('radio', { name: 'YouTube Shorts' }));
+
+      expect(
+        screen.getByPlaceholderText(
+          'e.g. I will do ____ (something) instead of opening YouTube Shorts today',
+        ),
+      ).toBeInTheDocument();
     });
 
     it('should call onSubmit with the selected addiction and content after typing and submitting', async () => {
