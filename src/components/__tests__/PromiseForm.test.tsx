@@ -9,6 +9,20 @@ const TEST_CONSTANTS = {
 
 describe('PromiseForm', () => {
   describe('Success cases', () => {
+    it('should render the expecting-your-promise heading', () => {
+      render(<PromiseForm onSubmit={jest.fn()} />);
+
+      expect(
+        screen.getByText('Addiction Rehab Dog is expecting your promise'),
+      ).toBeInTheDocument();
+    });
+
+    it('should render a multiline textarea for the promise content', () => {
+      render(<PromiseForm onSubmit={jest.fn()} />);
+
+      expect(screen.getByRole('textbox').tagName).toBe('TEXTAREA');
+    });
+
     it('should render all addiction options', () => {
       render(<PromiseForm onSubmit={jest.fn()} />);
 

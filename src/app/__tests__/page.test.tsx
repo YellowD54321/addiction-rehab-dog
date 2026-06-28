@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Home from '@/app/page';
 import { useTodayPromise } from '@/hooks/useTodayPromise';
 import type { PromiseRecord } from '@/lib/promises/types';
@@ -59,6 +60,16 @@ describe('Home', () => {
       expect(screen.getByRole('button', { name: 'I made it!' })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: "I didn't make it..." })).toBeInTheDocument();
     });
+
+    it('should show the promise content with the "Your promise:" label', () => {
+      mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: makeRecord('pending') });
+
+      render(<Home />);
+
+      expect(
+        screen.getByText("Your promise: I won't open Instagram Reels at all today"),
+      ).toBeInTheDocument();
+    });
   });
 
   describe('Promise succeeded (success)', () => {
@@ -78,6 +89,18 @@ describe('Home', () => {
       render(<Home />);
 
       expect(screen.getByRole('img')).toHaveAttribute('src', expect.stringContaining('sad-dog'));
+    });
+  });
+
+  describe('Back to home', () => {
+    it('should return to the promise form when Back to home is clicked', async () => {
+      const user = userEvent.setup();
+      mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: makeRecord('success') });
+
+      render(<Home />);
+      await user.click(screen.getByRole('button', { name: 'Back to home' }));
+
+      expect(screen.getByRole('button', { name: 'Make a promise' })).toBeInTheDocument();
     });
   });
 });
