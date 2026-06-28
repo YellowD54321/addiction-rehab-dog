@@ -15,7 +15,7 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
   const canSubmit = trimmed.length > 0;
 
   const selected = ADDICTIONS.find((item) => item.key === addiction) ?? ADDICTIONS[0];
-  const placeholder = `I will do ____ (something) instead of opening ${selected.label} today`;
+  const placeholder = `e.g. I will do ____ (something) instead of opening ${selected.label} today`;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -26,7 +26,9 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4">
       <fieldset className="flex flex-col gap-2">
-        <legend className="mb-2 text-lg font-semibold">What do you want to quit?</legend>
+        <legend className="mb-2 text-lg font-semibold">
+          Addiction Rehab Dog is expecting your promise
+        </legend>
         <div role="radiogroup" className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {ADDICTIONS.map((item) => {
             const isSelected = addiction === item.key;
@@ -60,13 +62,13 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
       </fieldset>
 
       <label className="flex flex-col gap-2">
-        <span className="text-lg font-semibold">Today&apos;s promise</span>
-        <input
-          type="text"
+        <span className="text-lg font-semibold">Your promise</span>
+        <textarea
           value={content}
           onChange={(event) => setContent(event.target.value)}
           placeholder={placeholder}
-          className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
+          rows={3}
+          className="resize-y rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900"
         />
       </label>
 

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  getTodayPromise,
+  getLatestPromise,
   createPromise,
   markSuccess as markSuccessRepo,
   markFailed as markFailedRepo,
@@ -21,15 +21,15 @@ export function useTodayPromise(): UseTodayPromise {
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
-    setPromise(await getTodayPromise());
+    setPromise(await getLatestPromise());
   }, []);
 
   useEffect(() => {
     let active = true;
-    getTodayPromise()
-      .then((today) => {
+    getLatestPromise()
+      .then((latest) => {
         if (!active) return;
-        setPromise(today);
+        setPromise(latest);
         setLoading(false);
       })
       .catch(() => {
