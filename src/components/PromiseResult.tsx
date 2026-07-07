@@ -44,7 +44,7 @@ export function PromiseResult({ status, addiction, onBackHome }: PromiseResultPr
       <button
         type="button"
         onClick={onBackHome}
-        className="rounded-full bg-foreground px-5 py-3 font-medium text-background transition-colors"
+        className="cursor-pointer rounded-full bg-foreground px-5 py-3 font-medium text-background transition-colors"
       >
         Back to home
       </button>

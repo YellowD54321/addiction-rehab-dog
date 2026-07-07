@@ -39,7 +39,7 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
                 role="radio"
                 aria-checked={isSelected}
                 onClick={() => setAddiction(item.key)}
-                className="rounded-lg border-2 px-4 py-3 text-sm font-medium transition-colors"
+                className="cursor-pointer rounded-lg border-2 px-4 py-3 text-sm font-medium transition-colors"
                 style={
                   isSelected
                     ? {
@@ -75,7 +75,7 @@ export function PromiseForm({ onSubmit }: PromiseFormProps) {
       <button
         type="submit"
         disabled={!canSubmit}
-        className="rounded-full bg-foreground px-5 py-3 font-medium text-background transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+        className="cursor-pointer rounded-full bg-foreground px-5 py-3 font-medium text-background transition-colors disabled:cursor-not-allowed disabled:opacity-50"
       >
         Make a promise
       </button>
