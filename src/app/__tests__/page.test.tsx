@@ -70,6 +70,16 @@ describe('Home', () => {
         screen.getByText("Your promise: I won't open Instagram Reels at all today"),
       ).toBeInTheDocument();
     });
+
+    it('should show the trust message', () => {
+      mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: makeRecord('pending') });
+
+      render(<Home />);
+
+      expect(
+        screen.getByText('AR Dog is watching you with strong trust.'),
+      ).toBeInTheDocument();
+    });
   });
 
   describe('Promise succeeded (success)', () => {
