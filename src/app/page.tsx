@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { PromiseForm } from '@/components/PromiseForm';
-import { PromiseActions } from '@/components/PromiseActions';
+import { PromisePending } from '@/components/PromisePending';
 import { PromiseResult } from '@/components/PromiseResult';
 import { useTodayPromise } from '@/hooks/useTodayPromise';
 import type { AddictionKey } from '@/constants/addictions';
@@ -26,10 +26,11 @@ export default function Home() {
         ) : showForm || !promise ? (
           <PromiseForm onSubmit={handleSubmit} />
         ) : promise.status === 'pending' ? (
-          <>
-            <p className="text-lg">Your promise: {promise.content}</p>
-            <PromiseActions onSuccess={markSuccess} onFailed={markFailed} />
-          </>
+          <PromisePending
+            content={promise.content}
+            onSuccess={markSuccess}
+            onFailed={markFailed}
+          />
         ) : (
           <PromiseResult
             status={promise.status}
