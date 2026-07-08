@@ -14,6 +14,7 @@ const baseHook = {
   submit: jest.fn(),
   markSuccess: jest.fn(),
   markFailed: jest.fn(),
+  acknowledge: jest.fn(),
 };
 
 const makeRecord = (status: PromiseRecord['status']): PromiseRecord => ({
@@ -103,14 +104,19 @@ describe('Home', () => {
   });
 
   describe('Back to home', () => {
-    it('should return to the promise form when Back to home is clicked', async () => {
+    it('should call acknowledge when Back to home is clicked', async () => {
       const user = userEvent.setup();
-      mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: makeRecord('success') });
+      const acknowledge = jest.fn();
+      mockedUseTodayPromise.mockReturnValue({
+        ...baseHook,
+        acknowledge,
+        promise: makeRecord('success'),
+      });
 
       render(<Home />);
       await user.click(screen.getByRole('button', { name: 'Back to home' }));
 
-      expect(screen.getByRole('button', { name: 'Make a promise' })).toBeInTheDocument();
+      expect(acknowledge).toHaveBeenCalledTimes(1);
     });
   });
 });

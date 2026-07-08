@@ -2,6 +2,8 @@ import { db } from '@/lib/db';
 import {
   createPromise,
   getLatestPromise,
+  getActivePromise,
+  acknowledgeLatest,
   markSuccess,
   markFailed,
 } from '@/lib/promises/repository';
@@ -95,6 +97,43 @@ describe('Promise Repository', () => {
       expect(first?.status).toBe('pending');
       expect(latest?.status).toBe('success');
     });
+
+    it('acknowledgeLatest should set acknowledgedAt on the latest promise', async () => {
+      await createPromise({
+        addiction: TEST_CONSTANTS.ADDICTION,
+        content: TEST_CONSTANTS.CONTENT,
+      });
+
+      await acknowledgeLatest();
+      const latest = await getLatestPromise();
+
+      expect(latest?.acknowledgedAt).toEqual(expect.any(Number));
+    });
+
+    it('getActivePromise should return the latest promise when it is not acknowledged', async () => {
+      await createPromise({
+        addiction: TEST_CONSTANTS.ADDICTION,
+        content: TEST_CONSTANTS.CONTENT,
+      });
+      await markSuccess();
+
+      const active = await getActivePromise();
+
+      expect(active?.status).toBe('success');
+    });
+
+    it('getActivePromise should return undefined when the latest promise is acknowledged', async () => {
+      await createPromise({
+        addiction: TEST_CONSTANTS.ADDICTION,
+        content: TEST_CONSTANTS.CONTENT,
+      });
+      await markSuccess();
+      await acknowledgeLatest();
+
+      const active = await getActivePromise();
+
+      expect(active).toBeUndefined();
+    });
   });
 
   describe('Error cases', () => {
@@ -105,6 +144,10 @@ describe('Promise Repository', () => {
     it('markFailed should throw when there is no promise', async () => {
       await expect(markFailed()).rejects.toThrow();
     });
+
+    it('acknowledgeLatest should throw when there is no promise', async () => {
+      await expect(acknowledgeLatest()).rejects.toThrow();
+    });
   });
 
   describe('Edge cases', () => {
@@ -112,6 +155,12 @@ describe('Promise Repository', () => {
       const latest = await getLatestPromise();
 
       expect(latest).toBeUndefined();
+    });
+
+    it('getActivePromise should return undefined when no promise exists', async () => {
+      const active = await getActivePromise();
+
+      expect(active).toBeUndefined();
     });
   });
 });

@@ -1,20 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { PromiseForm } from '@/components/PromiseForm';
 import { PromisePending } from '@/components/PromisePending';
 import { PromiseResult } from '@/components/PromiseResult';
 import { useTodayPromise } from '@/hooks/useTodayPromise';
-import type { AddictionKey } from '@/constants/addictions';
 
 export default function Home() {
-  const { promise, loading, submit, markSuccess, markFailed } = useTodayPromise();
-  const [showForm, setShowForm] = useState(false);
-
-  const handleSubmit = async (input: { addiction: AddictionKey; content: string }) => {
-    await submit(input);
-    setShowForm(false);
-  };
+  const { promise, loading, submit, markSuccess, markFailed, acknowledge } =
+    useTodayPromise();
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 font-sans dark:bg-black">
@@ -23,8 +16,8 @@ export default function Home() {
 
         {loading ? (
           <p className="text-zinc-500">Loading…</p>
-        ) : showForm || !promise ? (
-          <PromiseForm onSubmit={handleSubmit} />
+        ) : !promise ? (
+          <PromiseForm onSubmit={submit} />
         ) : promise.status === 'pending' ? (
           <PromisePending
             content={promise.content}
@@ -35,7 +28,7 @@ export default function Home() {
           <PromiseResult
             status={promise.status}
             addiction={promise.addiction}
-            onBackHome={() => setShowForm(true)}
+            onBackHome={acknowledge}
           />
         )}
       </main>

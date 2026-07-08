@@ -26,6 +26,20 @@ export async function createPromise(input: {
   return { ...record, id };
 }
 
+// 驅動畫面的「作用中約定」：最近一筆，但若已確認離開則視為無作用中約定。
+export async function getActivePromise(): Promise<PromiseRecord | undefined> {
+  const latest = await getLatestPromise();
+  if (!latest) return undefined;
+  return latest.acknowledgedAt ? undefined : latest;
+}
+
+// 將最近一筆標記為「已確認離開」（持久化 Back to home 意圖）。
+export async function acknowledgeLatest(): Promise<void> {
+  const latest = await getLatestPromise();
+  if (!latest?.id) throw new Error('No promise exists; cannot acknowledge.');
+  await db.promises.update(latest.id, { acknowledgedAt: Date.now() });
+}
+
 async function setStatus(status: 'success' | 'failed'): Promise<void> {
   const latest = await getLatestPromise();
   if (!latest?.id) throw new Error('No promise exists; cannot update status.');
