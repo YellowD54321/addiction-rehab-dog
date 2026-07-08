@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  getLatestPromise,
+  getActivePromise,
+  acknowledgeLatest,
   createPromise,
   markSuccess as markSuccessRepo,
   markFailed as markFailedRepo,
@@ -14,6 +15,7 @@ interface UseTodayPromise {
   submit: (input: { addiction: AddictionKey; content: string }) => Promise<void>;
   markSuccess: () => Promise<void>;
   markFailed: () => Promise<void>;
+  acknowledge: () => Promise<void>;
 }
 
 export function useTodayPromise(): UseTodayPromise {
@@ -21,12 +23,12 @@ export function useTodayPromise(): UseTodayPromise {
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
-    setPromise(await getLatestPromise());
+    setPromise(await getActivePromise());
   }, []);
 
   useEffect(() => {
     let active = true;
-    getLatestPromise()
+    getActivePromise()
       .then((latest) => {
         if (!active) return;
         setPromise(latest);
@@ -58,5 +60,10 @@ export function useTodayPromise(): UseTodayPromise {
     await refresh();
   }, [refresh]);
 
-  return { promise, loading, submit, markSuccess, markFailed };
+  const acknowledge = useCallback(async () => {
+    await acknowledgeLatest();
+    await refresh();
+  }, [refresh]);
+
+  return { promise, loading, submit, markSuccess, markFailed, acknowledge };
 }

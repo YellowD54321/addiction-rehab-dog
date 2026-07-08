@@ -68,5 +68,25 @@ describe('useTodayPromise', () => {
 
       expect(result.current.promise?.status).toBe('failed');
     });
+
+    it('promise should be undefined after acknowledge', async () => {
+      const { result } = renderHook(() => useTodayPromise());
+      await waitFor(() => expect(result.current.loading).toBe(false));
+      await act(async () => {
+        await result.current.submit({
+          addiction: TEST_CONSTANTS.ADDICTION,
+          content: TEST_CONSTANTS.CONTENT,
+        });
+      });
+      await act(async () => {
+        await result.current.markSuccess();
+      });
+
+      await act(async () => {
+        await result.current.acknowledge();
+      });
+
+      expect(result.current.promise).toBeUndefined();
+    });
   });
 });
