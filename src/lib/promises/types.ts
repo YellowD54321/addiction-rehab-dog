@@ -6,6 +6,7 @@ export interface PromiseRecord {
   id?: number;
   date: string; // YYYY-MM-DD
   addiction: AddictionKey;
+  customLabel?: string; // 使用者自定義成癮文字（已 trim）；僅 addiction === 'custom' 時有值
   content: string;
   status: PromiseStatus;
   createdAt: number;

@@ -24,7 +24,7 @@ describe('PromisePending', () => {
       render(<PromisePending content={CONTENT} onSuccess={noop} onFailed={noop} />);
 
       expect(
-        screen.getByText('AR Dog is watching you with strong trust.'),
+        screen.getByText('AR Dog is watching over you with complete trust.'),
       ).toBeInTheDocument();
     });
 

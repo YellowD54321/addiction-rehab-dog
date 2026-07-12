@@ -17,7 +17,7 @@ describe('PromiseResult', () => {
       render(<PromiseResult status="success" addiction="instagram-reels" onBackHome={noop} />);
 
       expect(
-        screen.getByText("Awesome, you made it today! 🎉 AR Dog Can't wait to see you tomorrow! 🎉"),
+        screen.getByText("Awesome, you made it today! 🎉 AR Dog can't wait to see you tomorrow!"),
       ).toBeInTheDocument();
     });
 
@@ -32,7 +32,7 @@ describe('PromiseResult', () => {
       render(<PromiseResult status="failed" addiction="instagram-reels" onBackHome={noop} />);
 
       expect(
-        screen.getByText('AR Dog gives you a hug. AR Dog expects to see you tomorrow.'),
+        screen.getByText('AR Dog gives you a hug and is looking forward to seeing you tomorrow.'),
       ).toBeInTheDocument();
     });
   });
@@ -49,6 +49,20 @@ describe('PromiseResult', () => {
       render(<PromiseResult status="success" addiction="youtube-shorts" onBackHome={noop} />);
 
       expect(screen.queryByRole('button', { name: 'YouTube Shorts' })).not.toBeInTheDocument();
+    });
+
+    it('should show the custom label instead of "Custom" for a custom addiction', () => {
+      render(
+        <PromiseResult
+          status="success"
+          addiction="custom"
+          customLabel="smoking"
+          onBackHome={noop}
+        />,
+      );
+
+      expect(screen.getByText('smoking')).toBeInTheDocument();
+      expect(screen.queryByText('Custom')).not.toBeInTheDocument();
     });
   });
 

@@ -84,6 +84,52 @@ describe('PromiseForm', () => {
     });
   });
 
+  describe('Custom addiction', () => {
+    const CUSTOM_PLACEHOLDER = 'e.g. smoking, alcohol, gambling…';
+
+    it('should not show the custom label input by default', () => {
+      render(<PromiseForm onSubmit={jest.fn()} />);
+
+      expect(screen.queryByPlaceholderText(CUSTOM_PLACEHOLDER)).not.toBeInTheDocument();
+    });
+
+    it('should show the custom label input after selecting Custom', async () => {
+      const user = userEvent.setup();
+      render(<PromiseForm onSubmit={jest.fn()} />);
+
+      await user.click(screen.getByRole('radio', { name: 'Custom' }));
+
+      expect(screen.getByPlaceholderText(CUSTOM_PLACEHOLDER)).toBeInTheDocument();
+    });
+
+    it('should keep the submit button disabled when custom label is empty', async () => {
+      const user = userEvent.setup();
+      render(<PromiseForm onSubmit={jest.fn()} />);
+
+      await user.click(screen.getByRole('radio', { name: 'Custom' }));
+      await user.type(screen.getByPlaceholderText(/instead of opening/), TEST_CONSTANTS.CONTENT);
+
+      expect(screen.getByRole('button', { name: 'Make a promise' })).toBeDisabled();
+    });
+
+    it('should call onSubmit with the trimmed custom label after filling both fields', async () => {
+      const user = userEvent.setup();
+      const onSubmit = jest.fn();
+      render(<PromiseForm onSubmit={onSubmit} />);
+
+      await user.click(screen.getByRole('radio', { name: 'Custom' }));
+      await user.type(screen.getByPlaceholderText(/instead of opening/), TEST_CONSTANTS.CONTENT);
+      await user.type(screen.getByPlaceholderText(CUSTOM_PLACEHOLDER), '  smoking  ');
+      await user.click(screen.getByRole('button', { name: 'Make a promise' }));
+
+      expect(onSubmit).toHaveBeenCalledWith({
+        addiction: 'custom',
+        content: TEST_CONSTANTS.CONTENT,
+        customLabel: 'smoking',
+      });
+    });
+  });
+
   describe('Error cases', () => {
     it('should disable the submit button when content is empty', () => {
       render(<PromiseForm onSubmit={jest.fn()} />);

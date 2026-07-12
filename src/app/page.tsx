@@ -28,6 +28,7 @@ export default function Home() {
           <PromiseResult
             status={promise.status}
             addiction={promise.addiction}
+            customLabel={promise.customLabel}
             onBackHome={acknowledge}
           />
         )}

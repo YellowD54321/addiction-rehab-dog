@@ -78,7 +78,7 @@ describe('Home', () => {
       render(<Home />);
 
       expect(
-        screen.getByText('AR Dog is watching you with strong trust.'),
+        screen.getByText('AR Dog is watching over you with complete trust.'),
       ).toBeInTheDocument();
     });
   });
@@ -90,6 +90,19 @@ describe('Home', () => {
       render(<Home />);
 
       expect(screen.getByRole('img')).toHaveAttribute('src', expect.stringContaining('happy-dog'));
+    });
+  });
+
+  describe('Custom addiction result', () => {
+    it('should show the custom label on the result screen', () => {
+      mockedUseTodayPromise.mockReturnValue({
+        ...baseHook,
+        promise: { ...makeRecord('success'), addiction: 'custom', customLabel: 'smoking' },
+      });
+
+      render(<Home />);
+
+      expect(screen.getByText('smoking')).toBeInTheDocument();
     });
   });
 

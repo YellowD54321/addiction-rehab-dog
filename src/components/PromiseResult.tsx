@@ -4,6 +4,7 @@ import { ADDICTIONS, type AddictionKey } from '@/constants/addictions';
 interface PromiseResultProps {
   status: 'success' | 'failed';
   addiction: AddictionKey;
+  customLabel?: string;
   onBackHome: () => void;
 }
 
@@ -11,18 +12,19 @@ const RESULT = {
   success: {
     src: '/dog/happy-dog.svg',
     alt: 'Happy dog',
-    message: "Awesome, you made it today! 🎉 AR Dog Can't wait to see you tomorrow! 🎉",
+    message: "Awesome, you made it today! 🎉 AR Dog can't wait to see you tomorrow!",
   },
   failed: {
     src: '/dog/sad-dog.svg',
     alt: 'Sad dog',
-    message: 'AR Dog gives you a hug. AR Dog expects to see you tomorrow.',
+    message: 'AR Dog gives you a hug and is looking forward to seeing you tomorrow.',
   },
 } as const;
 
-export function PromiseResult({ status, addiction, onBackHome }: PromiseResultProps) {
+export function PromiseResult({ status, addiction, customLabel, onBackHome }: PromiseResultProps) {
   const { src, alt, message } = RESULT[status];
   const selected = ADDICTIONS.find((item) => item.key === addiction) ?? ADDICTIONS[0];
+  const displayLabel = addiction === 'custom' ? (customLabel ?? selected.label) : selected.label;
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -38,7 +40,7 @@ export function PromiseResult({ status, addiction, onBackHome }: PromiseResultPr
           borderColor: selected.primary,
         }}
       >
-        {selected.label}
+        {displayLabel}
       </span>
 
       <button
