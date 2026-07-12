@@ -93,6 +93,19 @@ describe('Home', () => {
     });
   });
 
+  describe('Custom addiction result', () => {
+    it('should show the custom label on the result screen', () => {
+      mockedUseTodayPromise.mockReturnValue({
+        ...baseHook,
+        promise: { ...makeRecord('success'), addiction: 'custom', customLabel: 'smoking' },
+      });
+
+      render(<Home />);
+
+      expect(screen.getByText('smoking')).toBeInTheDocument();
+    });
+  });
+
   describe('Promise failed (failed)', () => {
     it('should show the sad dog illustration', () => {
       mockedUseTodayPromise.mockReturnValue({ ...baseHook, promise: makeRecord('failed') });

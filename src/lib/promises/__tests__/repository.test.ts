@@ -6,6 +6,7 @@ import {
   acknowledgeLatest,
   markSuccess,
   markFailed,
+  getAddictionGroupKey,
 } from '@/lib/promises/repository';
 
 const TEST_CONSTANTS = {
@@ -133,6 +134,53 @@ describe('Promise Repository', () => {
       const active = await getActivePromise();
 
       expect(active).toBeUndefined();
+    });
+  });
+
+  describe('Custom addiction', () => {
+    it('should trim the customLabel before storing when addiction is custom', async () => {
+      await createPromise({
+        addiction: 'custom',
+        customLabel: '  smoking  ',
+        content: TEST_CONSTANTS.CONTENT,
+      });
+
+      const latest = await getLatestPromise();
+
+      expect(latest?.customLabel).toBe('smoking');
+    });
+
+    it('should not store a customLabel for a fixed addiction', async () => {
+      await createPromise({
+        addiction: TEST_CONSTANTS.ADDICTION,
+        customLabel: 'smoking',
+        content: TEST_CONSTANTS.CONTENT,
+      });
+
+      const latest = await getLatestPromise();
+
+      expect(latest?.customLabel).toBeUndefined();
+    });
+  });
+
+  describe('getAddictionGroupKey', () => {
+    it('should return the addiction key for a fixed addiction', () => {
+      expect(
+        getAddictionGroupKey({ addiction: 'instagram-reels' }),
+      ).toBe('instagram-reels');
+    });
+
+    it('should return the trimmed customLabel for a custom addiction', () => {
+      expect(
+        getAddictionGroupKey({ addiction: 'custom', customLabel: '  smoking  ' }),
+      ).toBe('smoking');
+    });
+
+    it('should treat different letter casing as different group keys', () => {
+      const upper = getAddictionGroupKey({ addiction: 'custom', customLabel: 'Smoking' });
+      const lower = getAddictionGroupKey({ addiction: 'custom', customLabel: 'smoking' });
+
+      expect(upper).not.toBe(lower);
     });
   });
 

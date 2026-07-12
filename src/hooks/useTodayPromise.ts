@@ -12,7 +12,11 @@ import type { PromiseRecord } from '@/lib/promises/types';
 interface UseTodayPromise {
   promise: PromiseRecord | undefined;
   loading: boolean;
-  submit: (input: { addiction: AddictionKey; content: string }) => Promise<void>;
+  submit: (input: {
+    addiction: AddictionKey;
+    content: string;
+    customLabel?: string;
+  }) => Promise<void>;
   markSuccess: () => Promise<void>;
   markFailed: () => Promise<void>;
   acknowledge: () => Promise<void>;
@@ -43,7 +47,7 @@ export function useTodayPromise(): UseTodayPromise {
   }, []);
 
   const submit = useCallback(
-    async (input: { addiction: AddictionKey; content: string }) => {
+    async (input: { addiction: AddictionKey; content: string; customLabel?: string }) => {
       await createPromise(input);
       await refresh();
     },

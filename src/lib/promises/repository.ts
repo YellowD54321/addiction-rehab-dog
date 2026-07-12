@@ -12,11 +12,15 @@ export async function getLatestPromise(): Promise<PromiseRecord | undefined> {
 export async function createPromise(input: {
   addiction: AddictionKey;
   content: string;
+  customLabel?: string;
 }): Promise<PromiseRecord> {
   const now = Date.now();
+  const customLabel =
+    input.addiction === 'custom' ? input.customLabel?.trim() || undefined : undefined;
   const record: PromiseRecord = {
     date: getToday(),
     addiction: input.addiction,
+    ...(customLabel ? { customLabel } : {}),
     content: input.content,
     status: 'pending',
     createdAt: now,
@@ -24,6 +28,14 @@ export async function createPromise(input: {
   };
   const id = await db.promises.add(record); // date is no longer unique → multiple per day allowed
   return { ...record, id };
+}
+
+// 圖表分組鍵：固定項目用 addiction；自定義用 trim 後的 customLabel（保留大小寫，「完全一樣」語意）。
+export function getAddictionGroupKey(
+  record: Pick<PromiseRecord, 'addiction' | 'customLabel'>,
+): string {
+  if (record.addiction === 'custom') return (record.customLabel ?? '').trim();
+  return record.addiction;
 }
 
 // 驅動畫面的「作用中約定」：最近一筆，但若已確認離開則視為無作用中約定。

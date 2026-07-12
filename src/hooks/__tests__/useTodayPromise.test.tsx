@@ -69,6 +69,23 @@ describe('useTodayPromise', () => {
       expect(result.current.promise?.status).toBe('failed');
     });
 
+    it('submit should persist the trimmed customLabel for a custom addiction', async () => {
+      const { result } = renderHook(() => useTodayPromise());
+      await waitFor(() => expect(result.current.loading).toBe(false));
+
+      await act(async () => {
+        await result.current.submit({
+          addiction: 'custom',
+          content: 'I will not smoke today',
+          customLabel: '  smoking  ',
+        });
+      });
+
+      const stored = await db.promises.orderBy('id').last();
+      expect(stored?.addiction).toBe('custom');
+      expect(stored?.customLabel).toBe('smoking');
+    });
+
     it('promise should be undefined after acknowledge', async () => {
       const { result } = renderHook(() => useTodayPromise());
       await waitFor(() => expect(result.current.loading).toBe(false));
