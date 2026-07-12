@@ -78,7 +78,7 @@ describe('Home', () => {
       render(<Home />);
 
       expect(
-        screen.getByText('AR Dog is watching you with strong trust.'),
+        screen.getByText('AR Dog is watching over you with complete trust.'),
       ).toBeInTheDocument();
     });
   });

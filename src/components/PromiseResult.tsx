@@ -17,16 +17,11 @@ const RESULT = {
   failed: {
     src: '/dog/sad-dog.svg',
     alt: 'Sad dog',
-    message: 'AR Dog gives you a hug. AR Dog expects to see you tomorrow.',
+    message: 'AR Dog gives you a hug and is looking forward to seeing you tomorrow.',
   },
 } as const;
 
-export function PromiseResult({
-  status,
-  addiction,
-  customLabel,
-  onBackHome,
-}: PromiseResultProps) {
+export function PromiseResult({ status, addiction, customLabel, onBackHome }: PromiseResultProps) {
   const { src, alt, message } = RESULT[status];
   const selected = ADDICTIONS.find((item) => item.key === addiction) ?? ADDICTIONS[0];
   const displayLabel = addiction === 'custom' ? (customLabel ?? selected.label) : selected.label;

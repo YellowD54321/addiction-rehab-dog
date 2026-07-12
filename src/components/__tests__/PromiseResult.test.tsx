@@ -32,7 +32,7 @@ describe('PromiseResult', () => {
       render(<PromiseResult status="failed" addiction="instagram-reels" onBackHome={noop} />);
 
       expect(
-        screen.getByText('AR Dog gives you a hug. AR Dog expects to see you tomorrow.'),
+        screen.getByText('AR Dog gives you a hug and is looking forward to seeing you tomorrow.'),
       ).toBeInTheDocument();
     });
   });

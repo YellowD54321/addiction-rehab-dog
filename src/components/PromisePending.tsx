@@ -7,7 +7,7 @@ interface PromisePendingProps {
   onFailed: () => void;
 }
 
-const TRUST_MESSAGE = 'AR Dog is watching you with strong trust.';
+const TRUST_MESSAGE = 'AR Dog is watching over you with complete trust.';
 
 export function PromisePending({ content, onSuccess, onFailed }: PromisePendingProps) {
   return (
